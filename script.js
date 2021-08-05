@@ -11,7 +11,8 @@ const urlCompleated ="https://jsonplaceholder.typicode.com/todos/todoID";
 let toDoArray = [];
 
 function fetchData(){
-   fetch("https://610990bad71b6700176399bd.mockapi.io/todos").then(response =>{
+   fetch("https://610990bad71b6700176399bd.mockapi.io/todos")
+   .then(response =>{
        return response.json();
    }).then(data => {
        data.forEach(item => {
@@ -37,6 +38,7 @@ addBtn.addEventListener('click', function() {
     method:'POST',
     body:JSON.stringify({
         title:itemValue,
+        completed :"false"
        
     }),
     headers: {
@@ -80,8 +82,8 @@ function show(){
             checkLabel.addEventListener('change', function(){
                 if(checkLabel.checked == true){
                     console.log("true");
-                    
-                    checkLabel.disabled=true;
+                    input.completed="true"
+                    checkLabel.disabled="true";
                     timeCr.innerHTML="Done";
                     objectToDo.classList.remove("backColor");
                     objectToDo.classList.add("done");

@@ -107,7 +107,7 @@ body{
     background: rgb(226, 106, 106);
 }
 .toDoItem span {
-    font-size: 16px;
+    font-size: 10px;
     /* position: absolute; */
     margin: 0px 15px;
     cursor: default;

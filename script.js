@@ -30,65 +30,6 @@ function addElement(item){
     toDoArray.push(item);
 }
 fetchData();
-
-function show(){
-    
-    console.log(toDoArray);
-    toDoArray.forEach(input=>{
-    let toDoContainer = document.querySelector(".toDo"); 
-    let objectToDo = document.createElement("div"); 
-    objectToDo.className = "toDoItem , backColor";
-    let itemContainer =  document.createElement("div");
-    itemContainer.className = "check";
-    let checkLabel = document.createElement("input");
-    checkLabel.type="checkbox";
-    checkLabel.className="checB";
-    let item = document.createElement("span");
-    item.className="itemSpan";
-    let timeCr=document.createElement("small");
-    let buttonTrash= document.createElement("button");
-    buttonTrash.className="trash";
-    buttonTrash.innerHTML='<i class="fas fa-trash-alt trashIcon"></i>';
-        item.innerHTML=input.title;
-        itemContainer.appendChild(checkLabel);
-        itemContainer.appendChild(item);
-        itemContainer.appendChild(timeCr);
-        objectToDo.appendChild(itemContainer);
-        objectToDo.appendChild(buttonTrash);
-        toDoContainer.appendChild(objectToDo);
-        buttonTrash.addEventListener('click',function(){
-            toDoContainer.removeChild(objectToDo);
-            counter--;
-            spanCounter.innerHTML=counter;
-            if(counter == 0){
-                clearItem.classList.remove("buttonApperance");
-            
-            }
-        
-            })
-            checkLabel.addEventListener('change', function(){
-                if(checkLabel.checked == true){
-                    console.log("true");
-                    checkLabel.disabled=true;
-                    timeCr.innerHTML="Done";
-                    objectToDo.classList.remove("backColor");
-                    objectToDo.classList.add("done");
-                    
-                }else{
-                    objectToDo.classList.add("backColor");
-                    objectToDo.classList.remove("done");
-                    itemContainer.removeChild(minute);
-            
-                }
-                
-            })
-
-    })
-    spanCounter.innerHTML=toDoArray.length;
-    
-
-}
-show();
 addBtn.addEventListener('click', function() {
     
     let itemValue=inputContent.value;
@@ -110,3 +51,68 @@ addBtn.addEventListener('click', function() {
     })
    .then(()=>location.reload())
     })
+
+function show(){
+    
+    console.log(toDoArray);
+    toDoArray.forEach((input,i)=>{
+    let toDoContainer = document.querySelector(".toDo"); 
+    let objectToDo = document.createElement("div"); 
+    objectToDo.className = "toDoItem , backColor";
+    let itemContainer =  document.createElement("div");
+    itemContainer.className = "check";
+    let checkLabel = document.createElement("input");
+    checkLabel.type="checkbox";
+    checkLabel.className="checB";
+    let item = document.createElement("span");
+    item.className="itemSpan";
+    let timeCr=document.createElement("small");
+    let buttonTrash= document.createElement("button");
+    buttonTrash.className="trash";
+    buttonTrash.innerHTML='<i class="fas fa-trash-alt trashIcon"></i>';
+        item.innerHTML=input.title;
+        itemContainer.appendChild(checkLabel);
+        itemContainer.appendChild(item);
+        itemContainer.appendChild(timeCr);
+        objectToDo.appendChild(itemContainer);
+        objectToDo.appendChild(buttonTrash);
+        toDoContainer.appendChild(objectToDo);
+            checkLabel.addEventListener('change', function(){
+                if(checkLabel.checked == true){
+                    console.log("true");
+                    
+                    checkLabel.disabled=true;
+                    timeCr.innerHTML="Done";
+                    objectToDo.classList.remove("backColor");
+                    objectToDo.classList.add("done");
+                    
+                }else{
+                    objectToDo.classList.add("backColor");
+                    objectToDo.classList.remove("done");
+                    itemContainer.removeChild(minute);
+            
+                }
+                
+            })
+            buttonTrash.addEventListener('click',function(){
+                toDoContainer.removeChild(objectToDo);
+                let id = input.id;
+                fetch(`${url}/${id}`,{
+                    method:'DELETE',
+                    })
+                    .then(response=>response.json())
+                    .then(()=>location.reload())
+                    })
+                
+                
+    
+
+            
+
+    })
+    // spanCounter.innerHTML=toDoArray.length;
+    
+
+}
+
+    show();

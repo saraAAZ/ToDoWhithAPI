@@ -105,6 +105,7 @@ function show(){
                     .then(response=>response.json())
                     .then(()=>location.reload())
                     })
+                    spanCounter.innerHTML=toDoArray.length;
                 
                 
     
@@ -112,7 +113,9 @@ function show(){
             
 
     })
+
     // spanCounter.innerHTML=toDoArray.length;
+
     
 
 }

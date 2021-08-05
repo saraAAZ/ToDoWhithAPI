@@ -84,79 +84,29 @@ function show(){
             })
 
     })
+    spanCounter.innerHTML=toDoArray.length;
     
 
 }
 show();
 addBtn.addEventListener('click', function() {
-   
-
-    item.innerHTML=inputContent.value ;
-    itemContainer.appendChild(checkLabel);
-    itemContainer.appendChild(item);
-    itemContainer.appendChild(timeCr);
-    objectToDo.appendChild(itemContainer);
-    objectToDo.appendChild(buttonTrash);
-    toDoContainer.appendChild(objectToDo);
-    item.innerHTML="";
-    buttonTrash.addEventListener('click',function(){
-        toDoContainer.removeChild(objectToDo);
-        counter--;
-        spanCounter.innerHTML=counter;
-        if(counter == 0){
-            clearItem.classList.remove("buttonApperance");
-        
-        }
     
-        })
-        checkLabel.addEventListener('change', function(){
-            if(checkLabel.checked == true){
-                console.log("true");
-                checkLabel.disabled=true;
-                timeCr.innerHTML="Done";
-                objectToDo.classList.remove("backColor");
-                objectToDo.classList.add("done");
-                
-            }else{
-                objectToDo.classList.add("backColor");
-                objectToDo.classList.remove("done");
-                itemContainer.removeChild(minute);
-        
-            }
-            
-        })
-    
+    let itemValue=inputContent.value;
+    fetch(url,{
+    method:'POST',
+    body:JSON.stringify({
+        title:itemValue,
+       
+    }),
+    headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
     })
-
-        clearItem.addEventListener('click',function(){
-            toDoContainer.removeChild(objectToDo);
-            spanCounter.innerHTML= 0;
-        
-            })
-            spanCounter.innerHTML=toDoArray.length;
-            buttonTrash.addEventListener('click',function(){
-                toDoContainer.removeChild(objectToDo);
-                counter--;
-                spanCounter.innerHTML=counter;
-                if(counter == 0){
-                    clearItem.classList.remove("buttonApperance");
-                
-                }
-            
-                })
-                checkLabel.addEventListener('change', function(){
-                    if(checkLabel.checked == true){
-                        console.log("true");
-                        checkLabel.disabled=true;
-                        timeCr.innerHTML="Done";
-                        objectToDo.classList.remove("backColor");
-                        objectToDo.classList.add("done");
-                        
-                    }else{
-                        objectToDo.classList.add("backColor");
-                        objectToDo.classList.remove("done");
-                        itemContainer.removeChild(minute);
-                
-                    }
-                    
-                })
+    .then(response =>{
+        if (response.ok) {
+     alert("Task is Added");}
+     show();
+    return response.json();    
+    })
+   .then(()=>location.reload())
+    })

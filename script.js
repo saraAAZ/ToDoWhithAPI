@@ -11,7 +11,7 @@ const urlCompleated ="https://jsonplaceholder.typicode.com/todos/todoID";
 let toDoArray = [];
 
 function fetchData(){
-   fetch("https://610990bad71b6700176399bd.mockapi.io/todos").then(response =>{
+   fetch(url).then(response =>{
        return response.json();
    }).then(data => {
        data.forEach(item => {
@@ -57,14 +57,29 @@ function show(){
         objectToDo.appendChild(buttonTrash);
         toDoContainer.appendChild(objectToDo);
         buttonTrash.addEventListener('click',function(){
-            toDoContainer.removeChild(objectToDo);
-            counter--;
-            spanCounter.innerHTML=counter;
-            if(counter == 0){
-                clearItem.classList.remove("buttonApperance");
             
+            let deleteBtnIsPressed=e.target.id="delete-btn"
+            let id=e.target.parentElement.dataset.id;
+            if(deleteBtnIsPressed){
+            fetch(`${url}/${id}`,{
+            method:'DELETE',
+            })
+            .then(response=>response.json())
+            .then(()=>location.reload())
             }
-        
+            
+            })
+            lists.addEventListener('click', (e)=> {
+                let deleteBtnIsPressed=e.target.id="delete-btn"
+            let id=e.target.parentElement.dataset.id;
+            if(deleteBtnIsPressed){
+            fetch(`${api_url}/${id}`,{
+            method:'DELETE',
+            })
+            .then(response=>response.json())
+            .then(()=>location.reload())
+            }
+            
             })
         checkLabel.addEventListener('change', function(){
             if(checkLabel.checked == true){

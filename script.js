@@ -19,11 +19,11 @@ function fetchData(){
    }).then(data => {
        data.forEach(item => {
            addElement(item);
-           completedTasks(item);
        });
-       console.log(completedArray);
+       
     show();
-    // ftechCompletedData();
+    readCompletedTask();
+    console.log(completedArray);
    }
     ).catch(error=> {
         console.log(error);
@@ -33,12 +33,7 @@ function fetchData(){
 function addElement(item){
     toDoArray.push(item);
 }
-function completedTasks(item){
-    if(item.completed==true){
-        console.log("itsWorked");
-        completedArray.push(item);
-    }
-}
+
 fetchData();
 addBtn.addEventListener('click', function() {
     if(inputContent.value.trim()== ""){
@@ -80,7 +75,6 @@ function ftechCompletedData(){
                 "Content-type": "application/json; charset=UTF-8",
               },
             }).then(()=>location.reload())
-        
 
         })
 }
@@ -145,16 +139,6 @@ function show(){
                             return response.json();
                           }
                         })                        ;
-                    // fetch(url, {
-                    //     method: "PATCH",
-                    //     headers: {
-                    //       "Content-Type": "application/json",
-                    //     },
-                    //     body: JSON.stringify({
-                    //       "completed": true, 
-                    //     }),
-                    //   });
-                   
                     
                 }else{
                     objectToDo.classList.add("backColor");
@@ -174,19 +158,20 @@ function show(){
                     .then(()=>location.reload())
                     })
                     spanCounter.innerHTML=toDoArray.length;
-                
-                
-    
-
-            
                    
     })
-
-    // spanCounter.innerHTML=toDoArray.length;
-
     
 }
 
     show();
     
+    function readCompletedTask(){
+        toDoArray.forEach(input=>{
+            if(input.completed==true)
+            {
+                console.log(input.title)
+            }
+         })
+         
+    }
     

@@ -17,9 +17,8 @@ function fetchData(){
    }).then(data => {
        data.forEach(item => {
            addElement(item);
+           checkCompleted(item);
        });
-    //   console.log(toDoArray);
-    console.log(toDoArray);
     show();
    }
     ).catch(error=> {
@@ -30,15 +29,27 @@ function fetchData(){
 function addElement(item){
     toDoArray.push(item);
 }
+function checkCompleted(item){
+    if(item.completed =="false")
+    {
+        console.log("t")
+    }
+    else {
+        completedArray.push(item);
+    };
+}
 fetchData();
 addBtn.addEventListener('click', function() {
-    
+    if(inputContent.value.trim()== ""){
+        inputContent.value=" ";
+        alert("please Enter What you wont to Do");
+    }else{
     let itemValue=inputContent.value;
     fetch(url,{
     method:'POST',
     body:JSON.stringify({
         title:itemValue,
-        completed :"false"
+        completed :true,
        
     }),
     headers: {
@@ -52,11 +63,14 @@ addBtn.addEventListener('click', function() {
     return response.json();    
     })
    .then(()=>location.reload())
+}
+
     })
 
+    compeatedTasks();
 function show(){
     
-    console.log(toDoArray);
+    // console.log(toDoArray);
     toDoArray.forEach((input,i)=>{
     let toDoContainer = document.querySelector(".toDo"); 
     let objectToDo = document.createElement("div"); 
@@ -79,14 +93,46 @@ function show(){
         objectToDo.appendChild(itemContainer);
         objectToDo.appendChild(buttonTrash);
         toDoContainer.appendChild(objectToDo);
+
+        if(input.completed==true){
+            checkLabel.disabled="true";
+            timeCr.innerHTML="Done";
+            objectToDo.classList.add("done");
+            completedArray.push(input);
+
+
+        }
+// console.log(completedArray);
             checkLabel.addEventListener('change', function(){
-                if(checkLabel.checked == true){
-                    console.log("true");
-                    input.completed="true"
+                if(input.completed == true){
+                    input.completed=true;
                     checkLabel.disabled="true";
                     timeCr.innerHTML="Done";
+                    completedArray.push(input);
                     objectToDo.classList.remove("backColor");
                     objectToDo.classList.add("done");
+                    let id = input.id;
+                    fetch(`/url/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          completed:true,
+                         
+                        }),
+              });
+                    
+                    // fetch(url, {
+                    //     method: "PATCH",
+                    //     headers: {
+                    //       "Content-Type": "application/json",
+                    //     },
+                    //     body: JSON.stringify({
+                    //       "completed": true, 
+                    //     }),
+                    //   });
+                   
                     
                 }else{
                     objectToDo.classList.add("backColor");
@@ -111,13 +157,41 @@ function show(){
     
 
             
-
+                   
     })
 
     // spanCounter.innerHTML=toDoArray.length;
 
     
-
+    compeatedTasks();
 }
 
     show();
+    // function fetchData(){
+    //     fetch(urlCompleated)
+    //     .then(response =>{
+    //         return response.json();
+    //     }).then(data => {
+    //         data.forEach(item => {
+    //             addElement(item);
+    //         });
+    //      //   console.log(toDoArray);
+    //      console.log(toDoArray);
+    //      show();
+    //     }
+    //      ).catch(error=> {
+    //          console.log(error);
+    //      })
+    //  }
+     let completedArray=[];
+     function compeatedTasks(){
+         console.log("sth");
+        toDoArray.forEach(input=>{ 
+            let comleteStatus=input.completed;
+            if(comleteStatus=== "ture")
+            console.log(input.completed);
+        })
+
+    }
+    console.log(toDoArray);
+    
